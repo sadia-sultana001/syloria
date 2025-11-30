@@ -25,6 +25,7 @@ func enableCors(w http.ResponseWriter) {
 
 func getProducts(w http.ResponseWriter, r *http.Request) {
 	enableCors(w)
+
 	if r.Method != "GET" {
 		http.Error(w, "Plz gives Get request", 400)
 
@@ -35,48 +36,51 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 }
 
 func createProduct(w http.ResponseWriter, r *http.Request) {
+
 	enableCors(w)
-	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "OPTIONS" {
 		w.WriteHeader(200)
 		return
 	}
 
-	if r.Method != "POST" {
-		http.Error(w, "Plz gives Post request", 400)
+	w.Header().Set("Content-Type", "application/json")
 
+	if r.Method != "POST" {
+		http.Error(w, "Plz give me Post request", 400)
 		return
 	}
-	//description
-	//imageUrl
-	//price
-	//title
-	var NewProduct Product
+
+	var newProduct Product
 	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&NewProduct)
+	err := decoder.Decode(&newProduct)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Plz give me valid json", 400)
 		return
 	}
-	NewProduct.ID = len(productList) + 1
-	productList = append(productList, NewProduct)
+
+	newProduct.ID = len(productList) + 1
+	productList = append(productList, newProduct)
 
 	w.WriteHeader(201)
 
 	encoder := json.NewEncoder(w)
-	encoder.Encode(NewProduct)
+	encoder.Encode(newProduct)
+}
+
+func welcomeMessage(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Welcome to the Go HTTP Server!\n")
 }
 
 func main() {
 	mux := http.NewServeMux()
-
+	mux.HandleFunc("/", welcomeMessage)
 	mux.HandleFunc("/products", getProducts)
 
-	fmt.Println("Server running on: 8080")
+	mux.HandleFunc("/create-products", createProduct)
 
-	mux.HandleFunc("/Create-products", createProduct)
+	fmt.Println("Server running on: 8080")
 
 	err := http.ListenAndServe(":8080", mux)
 	if err != nil {
@@ -107,26 +111,27 @@ func init() {
 		ImgUrl:      "https://imgs.search.brave.com/-sBhiHfvfEvYXUTqSoo5s30I6sOPMGT1Y7MZsQxlQF8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3Lzc0LzI0LzA0/LzM2MF9GXzc3NDI0/MDQ3NF9VV1N0UGlr/ZTFTS1VzVVNNRTdz/Y2pRNk4zM3BGTm11/UC5qcGc",
 	}
 	/*prd4 := Product{
-		ID:          4,
-		Title:       "Grape",
-		Description: "A soft, energy-boosting fruit packed with potassium.",
-		Price:       540,
-		ImgUrl:      "https://imgs.search.brave.com/njVrk3F7HT3TftQUGaa1_UAPtB8TaNGIFQYFvTnxFls/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy8z/LzM3L1NlZWRsZXNz/X2dyYXBlc19vZl9L/YWxsaWRhaWt1cmlj/aGkuanBn",
-	}
-	prd5 := Product{
-		ID:          5,
-		Title:       "Mango",
-		Description: "A sweet, aromatic tropical fruit often called the “king of fruits.",
-		Price:       100,
-		ImgUrl:      "https://imgs.search.brave.com/j59IlxitzVSekHpV2bBX_ksJ-tZvv-MaJIJU1C9RnVc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvOTgw/ODEyNTkwL3Bob3Rv/L2ZyZXNoLXJhdy1t/YW5nb2VzLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1jTXlL/ZVVrM3R2MHIyOTVq/TVRaaVdMQ1pfV0FB/c2FqSnFSOWNuYWZx/N1BBPQ",
-	}
-	prd6 := Product{
-		ID:          6,
-		Title:       "Pomegranate",
-		Description: " A ruby-red fruit filled with tangy, antioxidant-rich seeds.",
-		Price:       100,
-		ImgUrl:      "https://imgs.search.brave.com/dludsujGmAg-Aqzsuch41owrhWEOe7d4OS_BSEE7TTE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvODMy/MDk5NTY0L3Bob3Rv/L3dob2xlLWFuZC1w/YXJ0LW9mLXBvbWVn/cmFuYXRlLXdpdGgt/bGVhdmVzLWlzb2xh/dGVkLW9uLXdoaXRl/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1vZ0NRS0Jwa3VD/X05HT2w5dzg2VWlR/UGlrVERDY3p1c2o2/R29MdlVFQXVnPQ",
-	} */
+	    ID:          4,
+	    Title:       "Grape",
+	    Description: "A soft, energy-boosting fruit packed with potassium.",
+	    Price:       540,
+	    ImgUrl:      "https://imgs.search.brave.com/njVrk3F7HT3TftQUGaa1_UAPtB8TaNGIFQYFvTnxFls/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy8z/LzM3L1NlZWRsZXNz/X2dyYXBlc19vZl9L/YWxsaWRhaWt1cmlj/aGkuanBn",
+	  }
+	  prd5 := Product{
+	    ID:          5,
+	    Title:       "Mango",
+	    Description: "A sweet, aromatic tropical fruit often called the “king of fruits.",
+	    Price:       100,
+	    ImgUrl:      "https://imgs.search.brave.com/j59IlxitzVSekHpV2bBX_ksJ-tZvv-MaJIJU1C9RnVc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvOTgw/ODEyNTkwL3Bob3Rv/L2ZyZXNoLXJhdy1t/YW5nb2VzLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1jTXlL/ZVVrM3R2MHIyOTVq/TVRaaVdMQ1pfV0FB/c2FqSnFSOWNuYWZx/N1BBPQ",
+	  }
+	  prd6 := Product{
+	    ID:          6,
+
+	    Title:       "Pomegranate",
+	    Description: " A ruby-red fruit filled with tangy, antioxidant-rich seeds.",
+	    Price:       100,
+	    ImgUrl:      "https://imgs.search.brave.com/dludsujGmAg-Aqzsuch41owrhWEOe7d4OS_BSEE7TTE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvODMy/MDk5NTY0L3Bob3Rv/L3dob2xlLWFuZC1w/YXJ0LW9mLXBvbWVn/cmFuYXRlLXdpdGgt/bGVhdmVzLWlzb2xh/dGVkLW9uLXdoaXRl/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1vZ0NRS0Jwa3VD/X05HT2w5dzg2VWlR/UGlrVERDY3p1c2o2/R29MdlVFQXVnPQ",
+	  } */
 
 	productList = append(productList, prd1)
 	productList = append(productList, prd2)
