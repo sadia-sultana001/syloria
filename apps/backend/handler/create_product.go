@@ -4,13 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"syloria-demo/product"
+
+	"syloria-demo/database"
 	"syloria-demo/util"
 )
 
 func CreateProduct(w http.ResponseWriter, r *http.Request) {
 
-	var newProduct product.Product
+	var newProduct database.Product
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&newProduct)
 	if err != nil {
@@ -19,8 +20,8 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	newProduct.ID = len(product.ProductList) + 1
-	product.ProductList = append(product.ProductList, newProduct)
+	newProduct.ID = len(database.ProductList) + 1
+	database.ProductList = append(database.ProductList, newProduct)
 
 	util.SendDate(w, newProduct, 201)
 
