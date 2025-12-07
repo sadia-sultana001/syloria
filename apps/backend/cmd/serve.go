@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"net/http"
-	"syloria-demo/global_router"
 	"syloria-demo/middleware"
 )
 
@@ -17,17 +16,17 @@ func Serve() {
 
 	manager := middleware.NewMessage()
 
-	manager.Use(middleware.Hudai, middleware.Logger)
+	manager.Use(middleware.Hudai, middleware.Logger, middleware.CorsWithPreflight)
 
 	initRoutes(mux, manager)
 
-	//globalRouter := global_router.GlobalRouter(mux)
+	//globalRout := middleware.CorsWithPreflight(mux)
 
-	globalRout := global_router.GlobalRouter(mux)
+	wrapMux := manager.With(mux)
 
 	fmt.Println("Server running on: 8080")
 
-	err := http.ListenAndServe(":8080", globalRout)
+	err := http.ListenAndServe(":8080", wrapMux)
 	if err != nil {
 		fmt.Println("Error staring the server", err)
 	}

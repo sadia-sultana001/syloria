@@ -12,11 +12,11 @@ func Logger(next http.Handler) http.Handler {
 
 		start := time.Now()
 
-		log.Println("Middleware: 1st print ")
+		//log.Println("Middleware: 1st print ")
 
 		next.ServeHTTP(w, r)
 
-		log.Println("Middleware: last print ")
+		//log.Println("Middleware: last print ")
 
 		log.Println(r.Method, r.URL.Path, time.Since(start))
 	})
