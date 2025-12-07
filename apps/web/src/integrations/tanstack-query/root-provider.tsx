@@ -1,7 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export function getContext() {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions:{
+      queries:{
+        gcTime: 1000 * 60 * 3 // 3 minuts in millesecond
+      }
+    }
+  })
   return {
     queryClient,
   }

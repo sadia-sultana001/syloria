@@ -1,24 +1,27 @@
-package main
+package middleware
 
 import (
-	"syloria-demo/cmd"
+	"log"
+	"net/http"
 )
 
-/* func corsMiddleWare(next http.Handler) http.Handler {
+func CorsWithPreflight(next http.Handler) http.Handler {
 
-	enableCors := func(w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		w.Header().Set("Content-Type", "application/json")
 
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(200)
+			return
+		}
 		next.ServeHTTP(w, r)
-	}
-	handler := http.HandlerFunc(enableCors)
-	return handler
-} */
 
-func main() {
-	cmd.Serve()
+		log.Println("Ami cors handler")
+
+	})
 
 }
