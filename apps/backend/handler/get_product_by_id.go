@@ -18,11 +18,11 @@ func GetProductByID(w http.ResponseWriter, r *http.Request) {
 
 	for _, product := range database.ProductList {
 		if product.ID == id {
-			util.SendDate(w, product, 200)
+			util.SendData(w, product, 200)
 			return
 		}
 	}
 
-	util.SendDate(w, "Product doesn't match.", 404)
+	util.SendData(w, "Product doesn't match.", 404)
 
 }
