@@ -67,12 +67,12 @@ export const createProductOptions = mutationOptions({
 
   // If the mutation fails,
   // use the result returned from onMutate to roll back
-  onError: (err, newProduct, onMutateResult, context) => {
+  onError: (_err, _newProduct, onMutateResult, context) => {
     context.client.setQueryData(['products'], onMutateResult?.previousProducts)
   },
 
    // Always refetch after error or success:
-  onSettled: (data, error, variables, onMutateResult, context) =>
+  onSettled: (_data, _error, _variables, _onMutateResult, context) =>
     context.client.invalidateQueries({ queryKey: ['products'] }),
 
 })
