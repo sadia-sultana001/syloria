@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"syloria-demo/global_router"
-	"syloria-demo/handler"
+	"syloria-demo/middleware"
 )
 
 func WelcomeMessage(w http.ResponseWriter, r *http.Request) {
@@ -15,15 +15,17 @@ func Serve() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", WelcomeMessage)
 
-	mux.Handle("GET /products", http.HandlerFunc(handler.GetProducts))
+	manager := middleware.NewMessage()
 
-	mux.Handle("POST /products", http.HandlerFunc(handler.CreateProduct))
+	manager.Use(middleware.Hudai, middleware.Logger)
 
-	mux.Handle("POST /products/{productID}", http.HandlerFunc(handler.GetProductByID))
+	initRoutes(mux, manager)
 
-	fmt.Println("Server running on: 8080")
+	//globalRouter := global_router.GlobalRouter(mux)
 
 	globalRout := global_router.GlobalRouter(mux)
+
+	fmt.Println("Server running on: 8080")
 
 	err := http.ListenAndServe(":8080", globalRout)
 	if err != nil {
