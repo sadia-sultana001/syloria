@@ -1,10 +1,10 @@
-import { queryOptions, mutationOptions } from "@tanstack/react-query";
+import { queryOptions, mutationOptions, QueryClient } from "@tanstack/react-query";
 import { product, productInsertSchema } from "../types/index";
 import type z from "zod";
 const APIROUTE = "http://localhost:8080";
 
 export const productsQueryOptions = queryOptions({
-  queryKey: ["product"],
+  queryKey: ["products"],
   queryFn: async (): Promise<z.infer<typeof product>[]> => {
     const response = await fetch(`${APIROUTE}/products`);
     if (!response.ok) {
@@ -30,13 +30,30 @@ export const createProductOptions = mutationOptions({
 
     return await res.json();
   },
-  // onSuccess: (createdProduct) => {
-  //       queryClient.setQueryData(
-  //         ["products"],
-  //         (old: z.infer<typeof product>[] | undefined) => {
-  //           if (!old) return [createdProduct];
-  //           return [...old, createdProduct];
-  //         }
-  //       );
-  //     },
-});
+ onMutate : async (variables , ctx)=>{
+        // Cancel any outgoing refetches
+      await ctx.client.cancelQueries({ queryKey: ['products'] })
+
+
+       // Snapshot the previous producs
+    const previousProducts = ctx.client.getQueryData(['products'])
+
+    // Optimistically update to the new product
+    ctx.client.setQueryData(['products'], (old: z.infer<typeof product>[] ) => [...old, variables])
+      
+
+    return { previousProducts }
+ },
+
+
+  // If the mutation fails,
+  // use the result returned from onMutate to roll back
+  onError: (err, newProduct, onMutateResult, context) => {
+    context.client.setQueryData(['products'], onMutateResult?.previousProducts)
+  },
+
+   // Always refetch after error or success:
+  onSettled: (data, error, variables, onMutateResult, context) =>
+    context.client.invalidateQueries({ queryKey: ['products'] }),
+
+})
