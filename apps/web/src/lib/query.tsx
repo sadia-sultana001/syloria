@@ -1,8 +1,11 @@
-import { queryOptions, mutationOptions, QueryClient } from "@tanstack/react-query";
+import { queryOptions, mutationOptions } from "@tanstack/react-query";
 import { product, productInsertSchema } from "../types/index";
 import type z from "zod";
 const APIROUTE = "http://localhost:8080";
 
+/*
+  ? Get All Produts Query 
+*/
 export const productsQueryOptions = queryOptions({
   queryKey: ["products"],
   queryFn: async (): Promise<z.infer<typeof product>[]> => {
@@ -13,6 +16,22 @@ export const productsQueryOptions = queryOptions({
     return response.json();
   },
 });
+
+/*
+
+? Get Single Product By Product ID 
+*/
+
+export const productByIdQueryOprions =({productId}:{productId: string}) => queryOptions({
+  queryKey: ['products' + productId],
+  queryFn : async (): Promise<z.infer<typeof product>> =>{
+    const response = await fetch(`${APIROUTE}/products/${productId}`);
+if(!response.ok){
+  throw new Error("Network Response was not ok")
+}
+return response.json()
+  }
+})
 
 export const createProductOptions = mutationOptions({
   mutationKey: ["products"],
