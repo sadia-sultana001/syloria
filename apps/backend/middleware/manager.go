@@ -10,7 +10,7 @@ type Manager struct {
 	globalMiddleware []Middleware
 }
 
-func NewMessage() *Manager {
+func NewManager() *Manager {
 	return &Manager{
 		globalMiddleware: make([]Middleware, 0),
 	}
@@ -34,6 +34,18 @@ func (mngr *Manager) With(handler http.Handler, middlewares ...Middleware) http.
 
 	for _, globalMidWare := range mngr.globalMiddleware {
 		h = globalMidWare(h)
+	}
+
+	return h
+
+}
+
+func (mngr *Manager) WrapMux(handler http.Handler) http.Handler {
+
+	h := handler
+
+	for _, middleware := range mngr.globalMiddleware {
+		h = middleware(h)
 	}
 
 	return h

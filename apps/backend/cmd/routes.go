@@ -10,6 +10,7 @@ func initRoutes(mux *http.ServeMux, manager *middleware.Manager) {
 	mux.Handle("GET /manage",
 		manager.With(
 			http.HandlerFunc(handler.Test),
+			middleware.AnotherMidWare,
 		),
 	)
 

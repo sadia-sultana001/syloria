@@ -14,19 +14,21 @@ func Serve() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", WelcomeMessage)
 
-	manager := middleware.NewMessage()
+	manager := middleware.NewManager()
 
-	manager.Use(middleware.Hudai, middleware.Logger, middleware.CorsWithPreflight)
+	manager.Use(
+		middleware.Cors,
+		middleware.Preflight,
+		middleware.Logger,
+	)
+
+	wrappedMux := manager.WrapMux(mux)
 
 	initRoutes(mux, manager)
 
-	//globalRout := middleware.CorsWithPreflight(mux)
-
-	wrapMux := manager.With(mux)
-
 	fmt.Println("Server running on: 8080")
 
-	err := http.ListenAndServe(":8080", wrapMux)
+	err := http.ListenAndServe(":8080", wrappedMux)
 	if err != nil {
 		fmt.Println("Error staring the server", err)
 	}
