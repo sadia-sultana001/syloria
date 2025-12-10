@@ -1,9 +1,9 @@
-package cmd
+package rest
 
 import (
 	"net/http"
-	"syloria-demo/handler"
-	"syloria-demo/middleware"
+	"syloria-demo/rest/handler"
+	middleware "syloria-demo/rest/middlewares"
 )
 
 func initRoutes(mux *http.ServeMux, manager *middleware.Manager) {
