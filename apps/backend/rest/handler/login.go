@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"syloria-demo/config"
 	"syloria-demo/database"
 	"syloria-demo/util"
 )
@@ -28,6 +29,20 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid credential.", http.StatusBadRequest)
 		return
 	}
-	util.SendDate(w, usr, http.StatusCreated)
+
+	cnf := config.GetConfig()
+
+	accessToken, err := util.CreateJwt(cnf.JWTsecretKey, util.Payload{
+		Sub:       usr.ID,
+		FirstName: usr.FirstName,
+		LastName:  usr.LastName,
+		Email:     usr.Email,
+	})
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	util.SendDate(w, accessToken, http.StatusCreated)
 
 }
