@@ -1,4 +1,4 @@
-package handler
+package product
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 	"syloria-demo/util"
 )
 
-func UpdateProducts(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateProducts(w http.ResponseWriter, r *http.Request) {
 	productID := r.PathValue("id")
 
 	pid, err := strconv.Atoi(productID)

@@ -1,4 +1,4 @@
-package handler
+package product
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 	"syloria-demo/util"
 )
 
-func DeleteProducts(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetProduct(w http.ResponseWriter, r *http.Request) {
 	productID := r.PathValue("id")
 
 	pid, err := strconv.Atoi(productID)
@@ -16,7 +16,12 @@ func DeleteProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	database.Detele(pid)
-	util.SendDate(w, "Successfully deleted product", 201)
+	product := database.Get(pid)
+	if product == nil {
+		util.SendError(w, 404, "Product not found")
+		return
+	}
+
+	util.SendDate(w, product, 200)
 
 }
