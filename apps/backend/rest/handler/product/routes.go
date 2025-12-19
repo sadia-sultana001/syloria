@@ -18,7 +18,7 @@ func (h *Handler) ResisterRoutes(mux *http.ServeMux, manager *middleware.Manager
 		"POST /products",
 		manager.With(
 			http.HandlerFunc(h.CreateProduct),
-			middleware.AuthenticateJWT,
+			h.middlewares.AuthenticateJWT,
 		),
 	)
 
@@ -33,7 +33,7 @@ func (h *Handler) ResisterRoutes(mux *http.ServeMux, manager *middleware.Manager
 		"PUT /products/{id}",
 		manager.With(
 			http.HandlerFunc(h.UpdateProducts),
-			middleware.AuthenticateJWT,
+			h.middlewares.AuthenticateJWT,
 		),
 	)
 

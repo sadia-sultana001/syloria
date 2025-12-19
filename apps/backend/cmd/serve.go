@@ -6,13 +6,16 @@ import (
 	"syloria-demo/rest/handler/product"
 	"syloria-demo/rest/handler/review"
 	"syloria-demo/rest/handler/user"
+	middleware "syloria-demo/rest/middlewares"
 )
 
 func Serve() {
 
 	cnf := config.GetConfig()
 
-	productHandler := product.NewHandler()
+	middlewares := middleware.NewMiddlewares(cnf)
+
+	productHandler := product.NewHandler(middlewares)
 	userHandler := user.NewHandler()
 	reviewHandler := review.NewHandler()
 
@@ -23,6 +26,6 @@ func Serve() {
 		reviewHandler,
 	)
 
-	server.Start(cnf)
+	server.Start()
 
 }

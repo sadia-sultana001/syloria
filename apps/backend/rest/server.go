@@ -15,14 +15,14 @@ import (
 )
 
 type Server struct {
-	cnf            config.Config
+	cnf            *config.Config
 	productHandler *product.Handler
 	userHandler    *user.Handler
 	reviewHandler  *review.Handler
 }
 
 func NewServer(
-	cnf config.Config,
+	cnf *config.Config,
 	productHandler *product.Handler,
 	userHandler *user.Handler,
 	reviewHandler *review.Handler,
@@ -35,7 +35,7 @@ func NewServer(
 	}
 }
 
-func (server *Server) Start(cnf config.Config) {
+func (server *Server) Start() {
 	mux := http.NewServeMux()
 	mux.Handle("/", http.HandlerFunc(util.WelcomeMessage))
 
