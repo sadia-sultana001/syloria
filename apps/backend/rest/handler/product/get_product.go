@@ -3,7 +3,6 @@ package product
 import (
 	"net/http"
 	"strconv"
-	"syloria-demo/database"
 	"syloria-demo/util"
 )
 
@@ -12,16 +11,21 @@ func (h *Handler) GetProduct(w http.ResponseWriter, r *http.Request) {
 
 	pid, err := strconv.Atoi(productID)
 	if err != nil {
-		http.Error(w, "Please give me a valid product id", 400)
+		util.SendError(w, http.StatusBadRequest, "Invalid req body")
 		return
 	}
 
-	product := database.Get(pid)
+	product, err := h.productRepo.Get(pid)
+	if err != nil {
+		util.SendError(w, http.StatusInternalServerError, "Internel Server Error")
+		return
+	}
+
 	if product == nil {
-		util.SendError(w, 404, "Product not found")
+		util.SendError(w, http.StatusNotFound, "Product not found")
 		return
 	}
 
-	util.SendDate(w, product, 200)
+	util.SendDate(w, http.StatusOK, product)
 
 }

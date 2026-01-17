@@ -1,9 +1,9 @@
 package product
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
-	"syloria-demo/database"
 	"syloria-demo/util"
 )
 
@@ -12,11 +12,17 @@ func (h *Handler) DeleteProducts(w http.ResponseWriter, r *http.Request) {
 
 	pid, err := strconv.Atoi(productID)
 	if err != nil {
-		http.Error(w, "Please give me a valid product id", 400)
+		fmt.Println(err)
+		util.SendError(w, http.StatusBadRequest, "Invalid Product ID")
 		return
 	}
 
-	database.Detele(pid)
-	util.SendDate(w, "Successfully deleted product", 201)
+	err = h.productRepo.Delete(pid)
+	if err != nil {
+		util.SendError(w, http.StatusInternalServerError, "Internel Server Error")
+		return
+	}
+
+	util.SendDate(w, http.StatusOK, "Successfully deleted product")
 
 }

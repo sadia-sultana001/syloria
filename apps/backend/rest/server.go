@@ -9,7 +9,7 @@ import (
 	"syloria-demo/util"
 
 	"syloria-demo/rest/handler/product"
-	"syloria-demo/rest/handler/review"
+
 	"syloria-demo/rest/handler/user"
 	middleware "syloria-demo/rest/middlewares"
 )
@@ -18,20 +18,18 @@ type Server struct {
 	cnf            *config.Config
 	productHandler *product.Handler
 	userHandler    *user.Handler
-	reviewHandler  *review.Handler
 }
 
 func NewServer(
 	cnf *config.Config,
 	productHandler *product.Handler,
 	userHandler *user.Handler,
-	reviewHandler *review.Handler,
+
 ) *Server {
 	return &Server{
 		cnf:            cnf,
 		productHandler: productHandler,
 		userHandler:    userHandler,
-		reviewHandler:  reviewHandler,
 	}
 }
 
@@ -51,7 +49,6 @@ func (server *Server) Start() {
 
 	server.productHandler.ResisterRoutes(mux, manager)
 	server.userHandler.RegisterRoutes(mux, manager)
-	server.reviewHandler.RegisterRoutes(mux, manager)
 
 	addr := ":" + strconv.Itoa(server.cnf.HttpPort)
 

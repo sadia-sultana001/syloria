@@ -5,29 +5,47 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"syloria-demo/database"
+
+	"syloria-demo/repo"
 	"syloria-demo/util"
 )
+
+type reqUpdatePro struct {
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+	ImgUrl      string  `json:"imageUrl"`
+}
 
 func (h *Handler) UpdateProducts(w http.ResponseWriter, r *http.Request) {
 	productID := r.PathValue("id")
 
 	pid, err := strconv.Atoi(productID)
 	if err != nil {
-		http.Error(w, "Please give me a valid product id", 400)
+		util.SendError(w, http.StatusBadRequest, "Invalid Product ID")
 		return
 	}
-	var newProduct database.Product
+	var req reqUpdatePro
 	decoder := json.NewDecoder(r.Body)
-	err = decoder.Decode(&newProduct)
+	err = decoder.Decode(&req)
 	if err != nil {
 		fmt.Println(err)
-		http.Error(w, "Plz give me valid json", 400)
+		util.SendError(w, http.StatusBadRequest, "Invalid Request Body")
 		return
 	}
 
-	newProduct.ID = pid
-	database.Update(newProduct)
-	util.SendDate(w, "Successfully updated product", 201)
+	_, err = h.productRepo.Update(repo.Product{
+		ID:          pid,
+		Title:       req.Title,
+		Description: req.Description,
+		Price:       req.Price,
+		ImgUrl:      req.ImgUrl,
+	})
+	if err != nil {
+		util.SendError(w, http.StatusInternalServerError, "Internel Server Error")
+		return
+	}
+
+	util.SendDate(w, http.StatusOK, "Successfully updated product")
 
 }
