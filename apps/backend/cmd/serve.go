@@ -1,7 +1,10 @@
 package cmd
 
 import (
+	"fmt"
+	"os"
 	"syloria-demo/config"
+	"syloria-demo/infra/db"
 	"syloria-demo/repo"
 	"syloria-demo/rest"
 	"syloria-demo/rest/handler/product"
@@ -13,8 +16,14 @@ func Serve() {
 
 	cnf := config.GetConfig()
 
+	dbCon, err := db.NweConnection()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
 	productRepo := repo.NewProductRepo()
-	userRepo := repo.NewUserRepo()
+	userRepo := repo.NewUserRepo(dbCon)
 
 	middlewares := middleware.NewMiddlewares(cnf)
 
