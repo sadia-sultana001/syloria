@@ -9,7 +9,7 @@ import (
 
 type Header struct {
 	Alg string `json:"alg"`
-	Typ string `"json:typ"`
+	Typ string `json:"typ"`
 }
 
 type Payload struct {

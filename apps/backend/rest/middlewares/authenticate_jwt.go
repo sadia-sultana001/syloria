@@ -10,7 +10,7 @@ import (
 
 func (m *Middlewares) AuthenticateJWT(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		header := r.Header.Get("Authorization")
+		header := r.Header.Get("Token")
 		if header == "" {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return

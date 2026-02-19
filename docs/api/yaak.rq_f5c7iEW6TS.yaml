@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_f5c7iEW6TS
 createdAt: 2026-02-19T10:38:12.257877564
-updatedAt: 2026-02-19T13:35:53.692637343
+updatedAt: 2026-02-19T16:13:38.904077051
 workspaceId: wk_ucqy5WF6F4
 folderId: fl_WV7RixMcH9
 authentication: {}
@@ -13,7 +13,8 @@ body:
       "first_name": "${[ faker.person.firstName() ]}",
       "last_name": "${[ faker.person.lastName() ]}",
       "email": "${[ faker.internet.email() ]}",
-      "password": "${[ faker.internet.password() ]}"
+      "password": "${[ faker.internet.password() ]}",
+      "is_shop_owner": true
     }
 bodyType: application/json
 description: ''

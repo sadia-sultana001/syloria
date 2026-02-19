@@ -8,13 +8,23 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var configarations *Config
+var configurations *Config
+
+type DBConfig struct {
+	Host          string
+	Port          int
+	Name          string
+	User          string
+	Password      string
+	EnableSSLMODE bool
+}
 
 type Config struct {
 	Version      string
 	ServiceName  string
 	HttpPort     int
 	JWTsecretKey string
+	DB           *DBConfig
 }
 
 func loadConfig() {
@@ -54,18 +64,71 @@ func loadConfig() {
 		os.Exit(1)
 	}
 
-	configarations = &Config{
+	dbHost := os.Getenv("DB_HOST")
+	if dbHost == "" {
+		fmt.Println("DB Host is required")
+		os.Exit(1)
+	}
+
+	dbPort := os.Getenv("DB_PORT")
+	if dbHost == "" {
+		fmt.Println("DB Port is required")
+		os.Exit(1)
+	}
+
+	dbPrt, err := strconv.ParseInt(dbPort, 10, 64)
+	if err != nil {
+		fmt.Println("port must be number")
+		os.Exit(1)
+	}
+
+	dbName := os.Getenv("DB_NAME")
+	if dbName == "" {
+		fmt.Println("DB Name is required")
+		os.Exit(1)
+	}
+
+	dbUser := os.Getenv("DB_USER")
+	if dbUser == "" {
+		fmt.Println("DB User is required")
+		os.Exit(1)
+	}
+
+	dbPass := os.Getenv("DB_PASSWORD")
+	if dbPass == "" {
+		fmt.Println("DB Pass is required")
+		os.Exit(1)
+	}
+
+	enableSsLMode := os.Getenv("DB_ENABLE_SSL_MODE")
+	enbSSLMode, err := strconv.ParseBool(enableSsLMode)
+	if err != nil {
+		fmt.Println("Invalid enable ssl mode value", err)
+		os.Exit(1)
+	}
+
+	dbConfig := &DBConfig{
+		Host:          dbHost,
+		Port:          int(dbPrt),
+		Name:          dbName,
+		User:          dbUser,
+		Password:      dbPass,
+		EnableSSLMODE: enbSSLMode,
+	}
+
+	configurations = &Config{
 		Version:      version,
 		ServiceName:  servicePort,
 		HttpPort:     int(port),
 		JWTsecretKey: jwtSecretKey,
+		DB:           dbConfig,
 	}
 }
 
 func GetConfig() *Config {
-	if configarations == nil {
+	if configurations == nil {
 		loadConfig()
 	}
 
-	return configarations
+	return configurations
 }

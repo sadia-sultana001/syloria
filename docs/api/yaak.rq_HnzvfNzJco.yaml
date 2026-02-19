@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_HnzvfNzJco
 createdAt: 2026-02-19T10:42:17.040073012
-updatedAt: 2026-02-19T13:39:05.864080370
+updatedAt: 2026-02-19T16:14:39.122658955
 workspaceId: wk_ucqy5WF6F4
 folderId: fl_WV7RixMcH9
 authentication: {}
@@ -10,8 +10,8 @@ authenticationType: null
 body:
   text: |-
     {
-      "email": "Margot17@yahoo.com",
-      "password": "jTxOYSqzxgKzlC1"
+      "email": "Cora25@hotmail.com",
+      "password": "DQnm6B_T8wZChwE"
     }
 bodyType: application/json
 description: ''

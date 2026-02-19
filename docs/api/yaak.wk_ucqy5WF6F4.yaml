@@ -2,13 +2,14 @@ type: workspace
 model: workspace
 id: wk_ucqy5WF6F4
 createdAt: 2026-02-19T10:36:57.563221726
-updatedAt: 2026-02-19T10:54:46.642823407
+updatedAt: 2026-02-19T15:55:55.797980489
 authentication: {}
 authenticationType: null
 description: ''
 headers: []
 name: Syloria
-encryptionKeyChallenge: eUE0azNuQwEucWu4Sae0+RfEfgh9bc1V0J/RA2DRRjo6QtIAuRb2omYGNSIJ1JAsVnYhzb802IELo1EgYtdAV8VAAiq/YaIZ2c/8RKxOQkkwn8EiLu6z/Q4vzEguHri8Ru4=
+encryptionKeyChallenge: eUE0azNuQwEVyjQBnJKZGCqJLWOTShJvf//29s0LzubcQXJTj9V24SwkFI9Lp0t5/wFCPPK54mGT97gFMaVXViai4d9BAzydskHW93fpLx4J4rxX7/fwnr1EHAcS0i0+4Hs=
 settingValidateCertificates: true
 settingFollowRedirects: true
 settingRequestTimeout: 0
+settingDnsOverrides: []
