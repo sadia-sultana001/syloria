@@ -52,7 +52,7 @@ func (server *Server) Start() {
 
 	addr := ":" + strconv.Itoa(server.cnf.HttpPort)
 
-	fmt.Println("Server running on: ", addr)
+	fmt.Println("Server running on", "http://localhost"+addr)
 
 	err := http.ListenAndServe(addr, wrappedMux)
 	if err != nil {
