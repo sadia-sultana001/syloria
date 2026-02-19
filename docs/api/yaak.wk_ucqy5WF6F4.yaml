@@ -1,0 +1,14 @@
+type: workspace
+model: workspace
+id: wk_ucqy5WF6F4
+createdAt: 2026-02-19T10:36:57.563221726
+updatedAt: 2026-02-19T10:37:20.603164275
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: Syloria
+encryptionKeyChallenge: null
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0

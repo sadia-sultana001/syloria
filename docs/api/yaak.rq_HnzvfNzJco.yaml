@@ -1,0 +1,31 @@
+type: http_request
+model: http_request
+id: rq_HnzvfNzJco
+createdAt: 2026-02-19T10:42:17.040073012
+updatedAt: 2026-02-19T10:44:17.669228837
+workspaceId: wk_ucqy5WF6F4
+folderId: fl_WV7RixMcH9
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "email": "tsnabil@gmail.com",
+      "password": "treafddfsdf"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: gCXMXDK6xh
+method: POST
+name: Login User
+sortPriority: 1000.0
+url: http://${[ local_address ]}/users/login
+urlParameters:
+- enabled: true
+  name: ''
+  value: ''
+  id: PUyE4sYKij
