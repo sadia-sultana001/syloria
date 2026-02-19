@@ -1,0 +1,14 @@
+type: environment
+model: environment
+id: ev_LW2kFTdoyg
+workspaceId: wk_ucqy5WF6F4
+createdAt: 2026-02-19T10:51:58.220160886
+updatedAt: 2026-02-19T11:00:20.769961299
+name: STAGING
+public: true
+base: false
+parentModel: environment
+parentId: null
+variables: []
+color: var(--info)
+sortPriority: 333.3333333333333

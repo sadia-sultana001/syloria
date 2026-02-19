@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_KF7apb9Kqi
+createdAt: 2026-02-19T13:40:23.673248785
+updatedAt: 2026-02-19T13:44:57.323334962
+workspaceId: wk_ucqy5WF6F4
+folderId: fl_mawLYNsBF4
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: List Products
+sortPriority: 0.0
+url: ${[ BASE_URL ]}/products
+urlParameters: []

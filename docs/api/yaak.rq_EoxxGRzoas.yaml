@@ -1,0 +1,41 @@
+type: http_request
+model: http_request
+id: rq_EoxxGRzoas
+createdAt: 2026-02-19T13:45:01.507197382
+updatedAt: 2026-02-19T14:58:51.337432937
+workspaceId: wk_ucqy5WF6F4
+folderId: fl_mawLYNsBF4
+authentication:
+  algorithm: HS256
+  disabled: false
+  location: header
+  payload: |-
+    {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsIlR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJmaXJzdF9uYW1lIjoiSmFja2VsaW5lIiwibGFzdF9uYW1lIjoiTWFycXVhcmR0IiwiZW1haWwiOiJNYXJnb3QxN0B5YWhvby5jb20iLCJpc19zaG9wX293bmVyIjpmYWxzZX0.MDR75NgjSSL3CJTll9_fLXrZYjkmyThJL3aLMiRr1ek"
+    }
+  secret: ${[ secure(value=b64'WUVOQ19lVUUwYXpOdVF3RkdudmE5eG1DTytwbkVxRUtlUjVUdkhKdGQwbFVTNEpHUlJ2N21Ea21yUXB2R1lpZHBqeFRJQTNDRzRyNkduZzZuUnFobjFUZmh4dz09') ]}
+authenticationType: jwt
+body:
+  text: |-
+    {
+      "title" : "${[ faker.commerce.productName() ]}",
+      "description": "${[ faker.commerce.productDescription() ]}",
+      "price": ${[ faker.commerce.price(options=b64'ewogICJkZWMiOiAwCn0') ]},
+      "imageUrl": "${[ faker.image.url() ]}"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: V85qg5Kz3p
+- enabled: true
+  name: ''
+  value: ''
+  id: viH7KrVBNP
+method: POST
+name: Create Products
+sortPriority: 0.0
+url: ${[ BASE_URL ]}/products
+urlParameters: []

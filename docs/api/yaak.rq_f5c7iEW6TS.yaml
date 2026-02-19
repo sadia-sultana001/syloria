@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_f5c7iEW6TS
 createdAt: 2026-02-19T10:38:12.257877564
-updatedAt: 2026-02-19T10:45:03.506501296
+updatedAt: 2026-02-19T13:35:53.692637343
 workspaceId: wk_ucqy5WF6F4
 folderId: fl_WV7RixMcH9
 authentication: {}
@@ -10,10 +10,10 @@ authenticationType: null
 body:
   text: |-
     {
-      "first_name": "tarek",
-      "last_name": "nabil",
-      "email": "tsnabil@gmail.com",
-      "password": "treafddfsdf"
+      "first_name": "${[ faker.person.firstName() ]}",
+      "last_name": "${[ faker.person.lastName() ]}",
+      "email": "${[ faker.internet.email() ]}",
+      "password": "${[ faker.internet.password() ]}"
     }
 bodyType: application/json
 description: ''
@@ -25,5 +25,5 @@ headers:
 method: POST
 name: Create User
 sortPriority: 0.0
-url: http://${[ local_address ]}/users
+url: ${[ BASE_URL ]}/users
 urlParameters: []
