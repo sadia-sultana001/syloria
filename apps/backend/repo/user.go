@@ -73,15 +73,17 @@ func (r *userRepo) Find(email, pass string) (*User, error) {
 	query := `
 	 SELECT id, first_name, last_name, email,  password, is_shop_owner
 	 FROM users
-	 WHERE email = $1 AND password = $2;
+	 WHERE email = $1 AND password = $2
 	 LIMIT 1
 	 `
 
 	err := r.db.Get(&user, query, email, pass)
 	if err != nil {
 		if err == sql.ErrNoRows {
+			fmt.Println("Query returned no rows:", err)
 			return nil, nil
 		}
+		fmt.Println("Error executing query:", err)
 		return nil, err
 	}
 	return &user, nil
