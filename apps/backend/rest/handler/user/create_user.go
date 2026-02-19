@@ -35,7 +35,7 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	})
 
 	if err != nil {
-		util.SendError(w, http.StatusInternalServerError, "Internel Server Error")
+		util.SendError(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

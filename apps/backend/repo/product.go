@@ -11,7 +11,7 @@ type Product struct {
 	Title       string  `json:"title" db:"title"`
 	Description string  `json:"description" db:"description"`
 	Price       float64 `json:"price" db:"price"`
-	ImgUrl      string  `json:"imageUrl" db:"imageUrl"`
+	ImgUrl      string  `json:"imageUrl" db:"imageurl"`
 }
 
 type ProductRepo interface {
@@ -38,7 +38,7 @@ func (r *productRepo) Create(p Product) (*Product, error) {
 	    title,
         description,
         price,
-        imageUrl
+        imageurl
         ) VALUES(
             $1,
 	        $2,
@@ -63,7 +63,7 @@ func (r *productRepo) Get(id int) (*Product, error) {
 	        title,
 	        description,
 			price,
-			imageUrl
+			imageurl
 			FROM products
 			where id = $1
 	`
@@ -86,7 +86,7 @@ func (r *productRepo) List() ([]*Product, error) {
 	        title,
 	        description,
 			price,
-			imageUrl
+			imageurl
 			FROM products
 	`
 	err := r.db.Select(&prdList, query)
@@ -110,7 +110,7 @@ func (r *productRepo) Delete(id int) error {
 func (r *productRepo) Update(p Product) (*Product, error) {
 	query := `
 	    UPDATE products
-		SET title = $1, description = $2, price = $3, imageUrl = $4
+		SET title = $1, description = $2, price = $3, imageurl = $4
 		WHERE id = $5
 	`
 	row := r.db.QueryRow(query, p.Title, p.Description, p.Price, p.ImgUrl)

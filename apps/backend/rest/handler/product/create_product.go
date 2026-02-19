@@ -34,7 +34,7 @@ func (h *Handler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 		ImgUrl:      req.ImgUrl,
 	})
 	if err != nil {
-		util.SendError(w, http.StatusInternalServerError, "Internel Server Error")
+		util.SendError(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 
