@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_EoxxGRzoas
 createdAt: 2026-02-19T13:45:01.507197382
-updatedAt: 2026-02-19T17:12:24.471838215
+updatedAt: 2026-02-20T14:18:14.139405275
 workspaceId: wk_ucqy5WF6F4
 folderId: fl_mawLYNsBF4
 authentication:
@@ -12,14 +12,14 @@ authentication:
   name: Token
   payload: |-
     {
-      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJmaXJzdF9uYW1lIjoiTWFkZWxpbmUiLCJsYXN0X25hbWUiOiJWb2xrbWFuIiwiZW1haWwiOiJDb3JhMjVAaG90bWFpbC5jb20iLCJpc19zaG9wX293bmVyIjpmYWxzZX0.HD6p_qo3NJq8ezLMeu4HKmZDSkr4cB3wPSy5vmM8UMk"
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImZpcnN0X25hbWUiOiJKdXN0aW5hIiwibGFzdF9uYW1lIjoiTWlsbHMiLCJlbWFpbCI6Ikd1ZHJ1bjU3QGdtYWlsLmNvbSIsImlzX3Nob3Bfb3duZXIiOmZhbHNlfQ.n8sDTZl8sPVU49E2t8O6i66L9GwPaGJ608IDVxfnGTk"
     }
   secret: ${[ secure(value=b64'WUVOQ19lVUUwYXpOdVF3SDdHbHFqUXZtU1BrYXZRQjRTNy82d1lSYmhkQTR4eDlMSWdxaUU1NlVFbU1nLy9SczBYK0dXUEN4dkRHYUUvbGNZQWRxdU1vSC85Zz09') ]}
 authenticationType: jwt
 body:
   text: |-
     {
-      "title" : "tomato",
+            "title" : "${[ faker.commerce.productName() ]}",
       "description": "${[ faker.commerce.productDescription() ]}",
       "price": ${[ faker.commerce.price(options=b64'ewogICJkZWMiOiAwCn0') ]},
       "imageUrl": "${[ faker.image.url() ]}"

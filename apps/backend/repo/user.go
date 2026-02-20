@@ -35,7 +35,7 @@ func NewUserRepo(db *sqlx.DB) UserRepo {
 	}
 }
 
-func (r userRepo) Create(user User) (*User, error) {
+func (r *userRepo) Create(user User) (*User, error) {
 
 	query := `
 		INSERT INTO users (
