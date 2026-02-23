@@ -5,11 +5,15 @@ import (
 	"os"
 	"syloria-demo/config"
 	"syloria-demo/infra/db"
+	"syloria-demo/product"
 	"syloria-demo/repo"
 	"syloria-demo/rest"
-	"syloria-demo/rest/handler/product"
-	"syloria-demo/rest/handler/user"
+
+	producthandler "syloria-demo/rest/handler/product"
+
+	usrHandler "syloria-demo/rest/handler/user"
 	middleware "syloria-demo/rest/middlewares"
+	"syloria-demo/user"
 )
 
 func Serve() {
@@ -29,14 +33,18 @@ func Serve() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
+	//repos
 	productRepo := repo.NewProductRepo(dbCon)
 	userRepo := repo.NewUserRepo(dbCon)
 
+	//domain
+	usrsvc := user.NewService(userRepo)
+	prdSvc := product.NewService(productRepo)
+
 	middlewares := middleware.NewMiddlewares(cnf)
 
-	productHandler := product.NewHandler(middlewares, productRepo)
-	userHandler := user.NewHandler(cnf, userRepo)
+	productHandler := producthandler.NewHandler(middlewares, prdSvc)
+	userHandler := usrHandler.NewHandler(cnf, usrsvc)
 
 	server := rest.NewServer(
 		cnf,

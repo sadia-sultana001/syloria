@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"syloria-demo/repo"
+	"syloria-demo/domain"
 	"syloria-demo/util"
 )
 
@@ -27,7 +27,7 @@ func (h *Handler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	createdPro, err := h.productRepo.Create(repo.Product{
+	createdPro, err := h.svc.Create(domain.Product{
 		Title:       req.Title,
 		Description: req.Description,
 		Price:       req.Price,

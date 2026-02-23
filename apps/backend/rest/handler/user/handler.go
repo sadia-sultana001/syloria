@@ -2,17 +2,16 @@ package user
 
 import (
 	"syloria-demo/config"
-	"syloria-demo/repo"
 )
 
 type Handler struct {
-	cnf      *config.Config
-	userRepo repo.UserRepo
+	cnf *config.Config
+	svr Service
 }
 
-func NewHandler(cnf *config.Config, userRepo repo.UserRepo) *Handler {
+func NewHandler(cnf *config.Config, svr Service) *Handler {
 	return &Handler{
-		userRepo: userRepo,
-		cnf:      cnf,
+		cnf: cnf,
+		svr: svr,
 	}
 }

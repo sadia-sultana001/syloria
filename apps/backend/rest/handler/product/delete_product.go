@@ -17,7 +17,7 @@ func (h *Handler) DeleteProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.productRepo.Delete(pid)
+	err = h.svc.Delete(pid)
 	if err != nil {
 		util.SendError(w, http.StatusInternalServerError, "Internel Server Error")
 		return
